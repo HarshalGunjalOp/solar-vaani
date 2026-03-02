@@ -1,0 +1,2060 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Solar Vaani — Solar Intelligence for a New India</title>
+  <meta name="description" content="AI-powered rooftop solar intelligence platform. Check eligibility for PM-Surya Ghar subsidy, get matched with premium dealers." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ─── RESET & FOUNDATIONS ─────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
+
+    :root {
+      --ink:       #070B14;
+      --ink-2:     #0D1220;
+      --ink-3:     #141926;
+      --surface:   #1A2035;
+      --surface-2: #202840;
+      --gold:      #F5A82A;
+      --gold-dim:  #C1832A;
+      --gold-glow: rgba(245,168,42,0.18);
+      --green:     #3ECFA0;
+      --white:     #F4F6FB;
+      --muted:     #8892AA;
+      --border:    rgba(255,255,255,0.07);
+      --border-gold: rgba(245,168,42,0.3);
+      --light-bg:  #F7F8FC;
+      --light-text:#0D1220;
+
+      --font-display: 'Syne', sans-serif;
+      --font-body:    'DM Sans', sans-serif;
+
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 22px;
+      --radius-xl: 32px;
+
+      --transition: 0.35s cubic-bezier(0.4,0,0.2,1);
+      --transition-fast: 0.18s cubic-bezier(0.4,0,0.2,1);
+    }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--ink);
+      color: var(--white);
+      overflow-x: hidden;
+      line-height: 1.6;
+      font-size: 16px;
+    }
+
+    /* ─── CUSTOM SCROLLBAR ────────────────────────────────────────── */
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: var(--ink); }
+    ::-webkit-scrollbar-thumb { background: var(--surface-2); border-radius: 99px; }
+
+    /* ─── UTILITY ─────────────────────────────────────────────────── */
+    .container { max-width: 1160px; margin: 0 auto; padding: 0 28px; }
+    .container--wide { max-width: 1320px; margin: 0 auto; padding: 0 28px; }
+
+    .text-gold   { color: var(--gold); }
+    .text-green  { color: var(--green); }
+    .text-muted  { color: var(--muted); }
+
+    /* ─── SCROLL REVEAL ───────────────────────────────────────────── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(32px);
+      transition: opacity 0.75s cubic-bezier(0.4,0,0.2,1),
+                  transform 0.75s cubic-bezier(0.4,0,0.2,1);
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+    .reveal-delay-4 { transition-delay: 0.4s; }
+    .reveal-delay-5 { transition-delay: 0.5s; }
+
+    /* ─── NAVBAR ──────────────────────────────────────────────────── */
+    #navbar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 1000;
+      padding: 22px 0;
+      transition: background var(--transition), box-shadow var(--transition), padding var(--transition);
+    }
+    #navbar.scrolled {
+      background: rgba(7,11,20,0.88);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      box-shadow: 0 1px 0 var(--border);
+      padding: 14px 0;
+    }
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+    .nav-logo-mark {
+      width: 32px; height: 32px;
+      background: linear-gradient(135deg, var(--gold), #E8860F);
+      border-radius: 8px;
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+    }
+    .nav-logo-mark svg { width: 18px; height: 18px; }
+    .nav-logo-text {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 1.15rem;
+      color: var(--white);
+      letter-spacing: -0.02em;
+    }
+    .nav-logo-text span { color: var(--gold); }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 36px;
+      list-style: none;
+    }
+    .nav-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.875rem;
+      font-weight: 500;
+      letter-spacing: 0.01em;
+      transition: color var(--transition-fast);
+    }
+    .nav-links a:hover { color: var(--white); }
+    .nav-cta {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 11px 24px;
+      border-radius: var(--radius-sm);
+      font-family: var(--font-body);
+      font-size: 0.875rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all var(--transition-fast);
+      border: 1.5px solid transparent;
+      letter-spacing: 0.01em;
+      white-space: nowrap;
+    }
+    .btn-primary {
+      background: var(--gold);
+      color: #060A10;
+      position: relative;
+      overflow: hidden;
+    }
+    .btn-primary::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(255,255,255,0.18), transparent);
+      opacity: 0;
+      transition: opacity var(--transition-fast);
+    }
+    .btn-primary:hover::before { opacity: 1; }
+    .btn-primary:hover {
+      box-shadow: 0 0 24px rgba(245,168,42,0.5), 0 4px 16px rgba(245,168,42,0.3);
+      transform: translateY(-1px);
+    }
+    .btn-outline {
+      background: transparent;
+      color: var(--white);
+      border-color: var(--border);
+    }
+    .btn-outline:hover {
+      border-color: rgba(255,255,255,0.25);
+      background: rgba(255,255,255,0.05);
+    }
+    .btn-lg { padding: 15px 32px; font-size: 0.95rem; border-radius: var(--radius-md); }
+    .btn-xl { padding: 18px 44px; font-size: 1rem; border-radius: var(--radius-md); }
+
+    /* ─── HERO ────────────────────────────────────────────────────── */
+    #hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+      padding-top: 80px;
+    }
+
+    /* Layered background */
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 60% 20%, rgba(245,168,42,0.07) 0%, transparent 65%),
+        radial-gradient(ellipse 60% 80% at 10% 80%, rgba(62,207,160,0.04) 0%, transparent 55%),
+        linear-gradient(160deg, #070B14 0%, #0C1022 40%, #080C18 100%);
+    }
+
+    /* Noise texture overlay */
+    .hero-bg::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.035'/%3E%3C/svg%3E");
+      opacity: 0.4;
+      pointer-events: none;
+    }
+
+    /* Grid lines */
+    .hero-grid {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+      background-size: 60px 60px;
+      mask-image: radial-gradient(ellipse 70% 70% at 50% 50%, black 30%, transparent 80%);
+    }
+
+    /* Solar orb */
+    .hero-orb {
+      position: absolute;
+      right: -120px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 680px;
+      height: 680px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 35%,
+        rgba(245,168,42,0.12) 0%,
+        rgba(245,168,42,0.05) 35%,
+        transparent 70%
+      );
+      pointer-events: none;
+    }
+    .hero-orb::before {
+      content: '';
+      position: absolute;
+      inset: 60px;
+      border-radius: 50%;
+      border: 1px solid rgba(245,168,42,0.08);
+      animation: pulseRing 4s ease-in-out infinite;
+    }
+    .hero-orb::after {
+      content: '';
+      position: absolute;
+      inset: 120px;
+      border-radius: 50%;
+      border: 1px solid rgba(245,168,42,0.05);
+      animation: pulseRing 4s ease-in-out infinite 1s;
+    }
+    @keyframes pulseRing {
+      0%, 100% { opacity: 0.6; transform: scale(1); }
+      50%       { opacity: 1;   transform: scale(1.03); }
+    }
+
+    /* Floating particles */
+    .particles {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+    .particle {
+      position: absolute;
+      width: 2px;
+      height: 2px;
+      background: var(--gold);
+      border-radius: 50%;
+      opacity: 0;
+      animation: floatParticle linear infinite;
+    }
+
+    @keyframes floatParticle {
+      0%   { opacity: 0; transform: translateY(0) scale(0); }
+      10%  { opacity: 0.7; transform: translateY(-20px) scale(1); }
+      90%  { opacity: 0.3; }
+      100% { opacity: 0; transform: translateY(-200px) scale(0.5); }
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 720px;
+    }
+
+    .hero-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(245,168,42,0.1);
+      border: 1px solid var(--border-gold);
+      border-radius: 99px;
+      padding: 6px 16px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 28px;
+    }
+    .hero-label-dot {
+      width: 6px; height: 6px;
+      background: var(--gold);
+      border-radius: 50%;
+      animation: pulseDot 2s ease-in-out infinite;
+    }
+    @keyframes pulseDot {
+      0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(245,168,42,0.5); }
+      50%       { opacity: 0.7; box-shadow: 0 0 0 5px rgba(245,168,42,0); }
+    }
+
+    .hero-headline {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: clamp(2.2rem, 4vw, 3.4rem);
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      color: var(--white);
+      margin-bottom: 24px;
+    }
+    .hero-headline em {
+      font-style: normal;
+      background: linear-gradient(90deg, var(--gold), #FFCC6A);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-sub {
+      font-size: 1.125rem;
+      color: rgba(244,246,251,0.65);
+      line-height: 1.65;
+      max-width: 560px;
+      margin-bottom: 40px;
+      font-weight: 400;
+    }
+
+    .hero-cta-group {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      align-items: center;
+      margin-bottom: 52px;
+    }
+
+    /* Glow pulse on primary CTA */
+    .btn-glow {
+      position: relative;
+    }
+    .btn-glow::after {
+      content: '';
+      position: absolute;
+      inset: -3px;
+      border-radius: inherit;
+      background: linear-gradient(135deg, var(--gold), #E8860F);
+      filter: blur(12px);
+      opacity: 0;
+      z-index: -1;
+      transition: opacity 0.35s;
+      animation: glowPulse 3s ease-in-out infinite;
+    }
+    @keyframes glowPulse {
+      0%, 100% { opacity: 0.3; filter: blur(12px); }
+      50%       { opacity: 0.6; filter: blur(18px); }
+    }
+
+    .hero-meta {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+    .hero-meta-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.82rem;
+      color: var(--muted);
+      font-weight: 500;
+    }
+    .hero-meta-icon {
+      width: 16px; height: 16px;
+      color: var(--green);
+      flex-shrink: 0;
+    }
+
+    /* ─── AUTHORITY STRIP ─────────────────────────────────────────── */
+    #authority {
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      background: rgba(255,255,255,0.015);
+      padding: 28px 0;
+    }
+    .authority-inner {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0;
+      flex-wrap: wrap;
+    }
+    .authority-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 36px;
+      border-right: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+    .authority-item:last-child { border-right: none; }
+    .authority-icon {
+      width: 20px; height: 20px;
+      opacity: 0.55;
+      color: var(--gold);
+      flex-shrink: 0;
+    }
+    .authority-text {
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: rgba(244,246,251,0.45);
+    }
+
+    /* ─── SECTION SHARED ──────────────────────────────────────────── */
+    .section { padding: 112px 0; }
+    .section-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 18px;
+    }
+    .section-label::before {
+      content: '';
+      width: 18px;
+      height: 1.5px;
+      background: var(--gold);
+    }
+    .section-heading {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: clamp(1.65rem, 2.6vw, 2.4rem);
+      line-height: 1.15;
+      letter-spacing: -0.018em;
+      color: var(--white);
+      margin-bottom: 20px;
+    }
+    .section-heading em {
+      font-style: normal;
+      color: var(--gold);
+    }
+    .section-desc {
+      font-size: 1.05rem;
+      color: var(--muted);
+      max-width: 560px;
+      line-height: 1.7;
+    }
+
+    /* ─── PROBLEM SECTION ─────────────────────────────────────────── */
+    #problem {
+      background: var(--ink-2);
+      padding: 112px 0;
+    }
+    .problem-header {
+      text-align: center;
+      max-width: 680px;
+      margin: 0 auto 72px;
+    }
+    .problem-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+    .problem-card {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 36px 32px;
+      position: relative;
+      overflow: hidden;
+      transition: border-color var(--transition), transform var(--transition);
+      backdrop-filter: blur(8px);
+    }
+    .problem-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(245,168,42,0.4), transparent);
+      opacity: 0;
+      transition: opacity var(--transition);
+    }
+    .problem-card:hover {
+      border-color: rgba(245,168,42,0.2);
+      transform: translateY(-4px);
+    }
+    .problem-card:hover::before { opacity: 1; }
+    .problem-number {
+      font-family: var(--font-display);
+      font-size: 3.5rem;
+      font-weight: 800;
+      color: rgba(245,168,42,0.08);
+      line-height: 1;
+      margin-bottom: 20px;
+    }
+    .problem-icon {
+      width: 44px; height: 44px;
+      background: rgba(245,168,42,0.08);
+      border: 1px solid rgba(245,168,42,0.15);
+      border-radius: var(--radius-sm);
+      display: grid;
+      place-items: center;
+      margin-bottom: 20px;
+      color: var(--gold);
+    }
+    .problem-title {
+      font-family: var(--font-display);
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+      color: var(--white);
+      letter-spacing: -0.01em;
+    }
+    .problem-desc {
+      font-size: 0.9rem;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    /* ─── ENGINE SECTION ──────────────────────────────────────────── */
+    #engine {
+      padding: 112px 0;
+      background: var(--ink);
+      overflow: hidden;
+      position: relative;
+    }
+    #engine::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%,-50%);
+      width: 800px;
+      height: 800px;
+      background: radial-gradient(circle, rgba(245,168,42,0.04) 0%, transparent 65%);
+      pointer-events: none;
+    }
+    .engine-header {
+      text-align: center;
+      max-width: 600px;
+      margin: 0 auto 80px;
+    }
+    .engine-flow {
+      display: flex;
+      align-items: stretch;
+      gap: 0;
+      position: relative;
+      max-width: 960px;
+      margin: 0 auto;
+    }
+    .engine-step {
+      flex: 1;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 0 12px;
+    }
+    .engine-step-node {
+      width: 64px; height: 64px;
+      background: var(--surface);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-md);
+      display: grid;
+      place-items: center;
+      position: relative;
+      z-index: 2;
+      transition: all var(--transition);
+      margin-bottom: 20px;
+      color: var(--muted);
+    }
+    .engine-step:hover .engine-step-node {
+      background: rgba(245,168,42,0.1);
+      border-color: var(--border-gold);
+      color: var(--gold);
+      box-shadow: 0 0 28px rgba(245,168,42,0.15);
+    }
+    .engine-connector {
+      position: absolute;
+      top: 32px; /* center of node */
+      left: calc(50% + 32px);
+      right: calc(-50% + 32px);
+      height: 1.5px;
+      background: linear-gradient(90deg, var(--border), var(--border));
+      z-index: 1;
+    }
+    .engine-connector::after {
+      content: '';
+      position: absolute;
+      right: -5px;
+      top: -4px;
+      width: 9px;
+      height: 9px;
+      background: transparent;
+      border-top: 1.5px solid rgba(255,255,255,0.1);
+      border-right: 1.5px solid rgba(255,255,255,0.1);
+      transform: rotate(45deg);
+    }
+    .engine-step:last-child .engine-connector { display: none; }
+    .engine-step-num {
+      font-family: var(--font-display);
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--gold);
+      opacity: 0.7;
+      margin-bottom: 6px;
+    }
+    .engine-step-title {
+      font-family: var(--font-display);
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 8px;
+    }
+    .engine-step-desc {
+      font-size: 0.8rem;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    /* Animated line progress */
+    .engine-progress-line {
+      position: absolute;
+      top: 32px;
+      left: 0;
+      right: 0;
+      height: 1.5px;
+      background: var(--border);
+      z-index: 0;
+      overflow: hidden;
+    }
+    .engine-progress-line::after {
+      content: '';
+      position: absolute;
+      top: 0; left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      animation: sweepLine 3.5s ease-in-out infinite;
+    }
+    @keyframes sweepLine {
+      0%   { left: -100%; }
+      100% { left: 200%; }
+    }
+
+    /* ─── FOR HOMEOWNERS ──────────────────────────────────────────── */
+    #homeowners {
+      background: var(--light-bg);
+      padding: 112px 0;
+    }
+    #homeowners .section-heading { color: var(--light-text); }
+    #homeowners .section-desc { color: #5A6380; }
+    #homeowners .section-label { color: #8860E0; }
+    #homeowners .section-label::before { background: #8860E0; }
+
+    .homeowner-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+    .feature-card-light {
+      background: #fff;
+      border: 1px solid rgba(0,0,0,0.06);
+      border-radius: var(--radius-lg);
+      padding: 32px 28px;
+      transition: box-shadow var(--transition), transform var(--transition);
+    }
+    .feature-card-light:hover {
+      box-shadow: 0 12px 40px rgba(0,0,0,0.08);
+      transform: translateY(-2px);
+    }
+    .feature-icon-light {
+      width: 44px; height: 44px;
+      background: linear-gradient(135deg, rgba(135,96,224,0.1), rgba(62,207,160,0.1));
+      border-radius: var(--radius-sm);
+      display: grid;
+      place-items: center;
+      margin-bottom: 18px;
+      color: #7248D4;
+    }
+    .feature-title-light {
+      font-family: var(--font-display);
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--light-text);
+      margin-bottom: 8px;
+      letter-spacing: -0.01em;
+    }
+    .feature-desc-light {
+      font-size: 0.875rem;
+      color: #6B7490;
+      line-height: 1.68;
+    }
+
+    /* ─── FOR DEALERS ─────────────────────────────────────────────── */
+    #dealers {
+      background: var(--ink-2);
+      padding: 112px 0;
+    }
+    .dealers-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 72px;
+      align-items: center;
+    }
+    .dealer-features {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      margin-top: 40px;
+    }
+    .dealer-feature {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+    }
+    .dealer-feature-icon {
+      width: 38px; height: 38px;
+      flex-shrink: 0;
+      background: rgba(62,207,160,0.08);
+      border: 1px solid rgba(62,207,160,0.15);
+      border-radius: var(--radius-sm);
+      display: grid;
+      place-items: center;
+      color: var(--green);
+      margin-top: 2px;
+    }
+    .dealer-feature-content {}
+    .dealer-feature-title {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: var(--white);
+      margin-bottom: 4px;
+    }
+    .dealer-feature-desc {
+      font-size: 0.85rem;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+    .dealer-visual {
+      background: rgba(255,255,255,0.02);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-xl);
+      padding: 36px;
+      position: relative;
+      overflow: hidden;
+    }
+    .dealer-visual::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 80% 20%, rgba(62,207,160,0.06) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    .dealer-metric {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .dealer-metric-item {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 20px 22px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .dealer-metric-label {
+      font-size: 0.8rem;
+      color: var(--muted);
+      font-weight: 500;
+    }
+    .dealer-metric-value {
+      font-family: var(--font-display);
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: var(--green);
+    }
+    .dealer-metric-bar-wrap {
+      height: 3px;
+      background: rgba(255,255,255,0.06);
+      border-radius: 99px;
+      margin-top: 10px;
+      overflow: hidden;
+    }
+    .dealer-metric-bar {
+      height: 100%;
+      background: linear-gradient(90deg, var(--green), rgba(62,207,160,0.4));
+      border-radius: 99px;
+      transition: width 1.5s cubic-bezier(0.4,0,0.2,1);
+    }
+
+    /* ─── STATS ───────────────────────────────────────────────────── */
+    #stats {
+      padding: 100px 0;
+      background: var(--ink);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+    }
+    .stat-block {
+      background: var(--ink);
+      padding: 52px 48px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      transition: background var(--transition);
+    }
+    .stat-block:hover { background: rgba(255,255,255,0.015); }
+    .stat-block::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      opacity: 0;
+      transition: opacity var(--transition);
+    }
+    .stat-block:hover::before { opacity: 0.6; }
+    .stat-value {
+      font-family: var(--font-display);
+      font-size: 3.2rem;
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      color: var(--white);
+      line-height: 1;
+      margin-bottom: 10px;
+    }
+    .stat-value span { color: var(--gold); }
+    .stat-label {
+      font-size: 0.82rem;
+      color: var(--muted);
+      font-weight: 500;
+      letter-spacing: 0.02em;
+      line-height: 1.5;
+    }
+
+    /* ─── LEAD CAPTURE ────────────────────────────────────────────── */
+    #capture {
+      padding: 112px 0;
+      background: var(--ink-2);
+      position: relative;
+      overflow: hidden;
+    }
+    #capture::before {
+      content: '';
+      position: absolute;
+      top: -200px;
+      right: -200px;
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(245,168,42,0.05) 0%, transparent 65%);
+      pointer-events: none;
+    }
+    .capture-inner {
+      display: grid;
+      grid-template-columns: 1fr 1.1fr;
+      gap: 80px;
+      align-items: start;
+    }
+    .capture-copy {}
+    .capture-copy .section-heading { max-width: 420px; }
+    .capture-copy .section-desc { margin-bottom: 40px; }
+    .capture-trust {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      margin-top: 40px;
+    }
+    .trust-item {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+    .trust-item svg { color: var(--green); flex-shrink: 0; }
+
+    /* Form card glass */
+    .form-glass {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-xl);
+      padding: 40px;
+      backdrop-filter: blur(16px);
+      position: relative;
+      overflow: hidden;
+    }
+    .form-glass::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(245,168,42,0.3), transparent);
+    }
+
+    .form-tabs {
+      display: flex;
+      background: rgba(255,255,255,0.04);
+      border-radius: var(--radius-sm);
+      padding: 4px;
+      gap: 4px;
+      margin-bottom: 32px;
+    }
+    .form-tab {
+      flex: 1;
+      padding: 10px;
+      border: none;
+      background: transparent;
+      color: var(--muted);
+      font-family: var(--font-body);
+      font-size: 0.8rem;
+      font-weight: 600;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all var(--transition-fast);
+      letter-spacing: 0.02em;
+    }
+    .form-tab.active {
+      background: var(--gold);
+      color: #060A10;
+    }
+
+    .form-panel { display: none; }
+    .form-panel.active { display: block; }
+
+    .form-field {
+      margin-bottom: 16px;
+    }
+    .form-field label {
+      display: block;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: rgba(244,246,251,0.55);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      margin-bottom: 7px;
+    }
+    .form-field input,
+    .form-field select {
+      width: 100%;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 13px 16px;
+      color: var(--white);
+      font-family: var(--font-body);
+      font-size: 0.9rem;
+      outline: none;
+      transition: border-color var(--transition-fast), background var(--transition-fast);
+      appearance: none;
+      -webkit-appearance: none;
+    }
+    .form-field input::placeholder { color: rgba(136,146,170,0.5); }
+    .form-field input:focus,
+    .form-field select:focus {
+      border-color: rgba(245,168,42,0.45);
+      background: rgba(255,255,255,0.06);
+    }
+    .form-field select {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238892AA' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 14px center;
+      padding-right: 40px;
+      cursor: pointer;
+    }
+    .form-field select option { background: var(--ink-3); color: var(--white); }
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+    .form-submit {
+      width: 100%;
+      margin-top: 6px;
+      padding: 15px;
+      background: var(--gold);
+      border: none;
+      border-radius: var(--radius-sm);
+      color: #060A10;
+      font-family: var(--font-body);
+      font-size: 0.9rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all var(--transition-fast);
+      letter-spacing: 0.02em;
+    }
+    .form-submit:hover {
+      background: #F0A020;
+      box-shadow: 0 0 28px rgba(245,168,42,0.4);
+      transform: translateY(-1px);
+    }
+
+    /* ─── FINAL CTA ───────────────────────────────────────────────── */
+    #final-cta {
+      padding: 140px 0;
+      background: var(--ink);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    #final-cta::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%,-50%);
+      width: 700px;
+      height: 500px;
+      background: radial-gradient(ellipse, rgba(245,168,42,0.06) 0%, transparent 65%);
+      pointer-events: none;
+    }
+    .final-headline {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: clamp(2rem, 3.5vw, 3rem);
+      line-height: 1.12;
+      letter-spacing: -0.02em;
+      color: var(--white);
+      max-width: 760px;
+      margin: 0 auto 32px;
+    }
+    .final-headline em {
+      font-style: normal;
+      background: linear-gradient(90deg, var(--gold), #FFCC6A);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .final-sub {
+      color: var(--muted);
+      font-size: 1.05rem;
+      max-width: 500px;
+      margin: 0 auto 44px;
+      line-height: 1.65;
+    }
+
+    /* ─── FOOTER ──────────────────────────────────────────────────── */
+    footer {
+      background: var(--ink);
+      border-top: 1px solid var(--border);
+      padding: 52px 0 36px;
+    }
+    .footer-inner {
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+    }
+    .footer-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 24px;
+    }
+    .footer-links {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      list-style: none;
+      flex-wrap: wrap;
+    }
+    .footer-links a {
+      font-size: 0.82rem;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color var(--transition-fast);
+    }
+    .footer-links a:hover { color: var(--white); }
+    .footer-divider {
+      height: 1px;
+      background: var(--border);
+    }
+    .footer-bottom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    .footer-copy {
+      font-size: 0.78rem;
+      color: rgba(136,146,170,0.5);
+    }
+    .footer-disclaimer {
+      font-size: 0.72rem;
+      color: rgba(136,146,170,0.4);
+      max-width: 560px;
+      line-height: 1.6;
+      text-align: right;
+    }
+
+    /* ─── RESPONSIVE ──────────────────────────────────────────────── */
+    @media (max-width: 900px) {
+      .problem-grid { grid-template-columns: 1fr; gap: 14px; }
+      .dealers-inner { grid-template-columns: 1fr; gap: 48px; }
+      .capture-inner { grid-template-columns: 1fr; gap: 48px; }
+      .stats-grid { grid-template-columns: 1fr; }
+      .engine-flow { flex-wrap: wrap; justify-content: center; }
+      .engine-step { min-width: 40%; }
+      .engine-step .engine-connector { display: none; }
+      .homeowner-grid { grid-template-columns: 1fr; }
+      .authority-item { border-right: none; padding: 8px 20px; }
+      .form-row { grid-template-columns: 1fr; }
+      .footer-top { flex-direction: column; }
+      .footer-disclaimer { text-align: left; }
+      .nav-links { display: none; }
+    }
+
+    /* ─── HORIZONTAL SCROLL TICKER ────────────────────────────────── */
+    .ticker-wrap {
+      overflow: hidden;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      background: rgba(255,255,255,0.012);
+      padding: 0;
+    }
+    .ticker-inner {
+      display: flex;
+      width: max-content;
+      animation: tickerScroll 22s linear infinite;
+    }
+    .ticker-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 40px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: rgba(244,246,251,0.35);
+      white-space: nowrap;
+    }
+    .ticker-dot {
+      width: 4px; height: 4px;
+      background: var(--gold);
+      border-radius: 50%;
+      opacity: 0.5;
+    }
+    @keyframes tickerScroll {
+      0%   { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       NAVBAR
+  ═══════════════════════════════════════════════════════════════════ -->
+  <nav id="navbar">
+    <div class="container">
+      <div class="nav-inner">
+        <a href="#" class="nav-logo">
+          <div class="nav-logo-mark">
+            <svg viewBox="0 0 18 18" fill="none">
+              <circle cx="9" cy="9" r="3.5" fill="#fff"/>
+              <path d="M9 1v2M9 15v2M1 9h2M15 9h2M3.22 3.22l1.41 1.41M13.37 13.37l1.41 1.41M3.22 14.78l1.41-1.41M13.37 4.63l1.41-1.41" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <span class="nav-logo-text">Solar <span>Vaani</span></span>
+        </a>
+
+        <ul class="nav-links">
+          <li><a href="#problem">Why Solar Vaani</a></li>
+          <li><a href="#engine">How It Works</a></li>
+          <li><a href="#homeowners">For Homeowners</a></li>
+          <li><a href="#dealers">For Dealers</a></li>
+        </ul>
+
+        <div class="nav-cta">
+          <a href="#capture" class="btn btn-outline">Partner as Dealer</a>
+          <a href="#capture" class="btn btn-primary btn-glow">Check Eligibility</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       HERO
+  ═══════════════════════════════════════════════════════════════════ -->
+  <section id="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-grid"></div>
+    <div class="hero-orb"></div>
+
+    <div class="particles" id="particles"></div>
+
+    <div class="container">
+      <div class="hero-content">
+        <div class="hero-label reveal">
+          <span class="hero-label-dot"></span>
+          PM-Surya Ghar: Muft Bijli Yojana
+        </div>
+
+        <h1 class="hero-headline reveal reveal-delay-1">
+          Solar Intelligence<br />for a <em>New India.</em>
+        </h1>
+
+        <p class="hero-sub reveal reveal-delay-2">
+          Install rooftop solar under PM-Surya Ghar — guided by AI,
+          matched with precision. No confusion. No spam. Just clarity.
+        </p>
+
+        <div class="hero-cta-group reveal reveal-delay-3">
+          <a href="#capture" class="btn btn-primary btn-lg btn-glow">
+            <svg width="16" height="16" viewBox="0 0 20 20" fill="none"><path d="M10 2l2.09 6.26L18 10l-5.91 1.74L10 18l-2.09-6.26L2 10l5.91-1.74L10 2z" fill="currentColor"/></svg>
+            Check My Solar Eligibility
+          </a>
+          <a href="#capture" class="btn btn-outline btn-lg">
+            Partner as a Dealer
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </div>
+
+        <div class="hero-meta reveal reveal-delay-4">
+          <div class="hero-meta-item">
+            <svg class="hero-meta-icon" viewBox="0 0 16 16" fill="none"><path d="M8 1l1.5 4.5L14 7l-4.5 1.5L8 13l-1.5-4.5L2 7l4.5-1.5L8 1z" fill="currentColor"/></svg>
+            AI-Powered Matching
+          </div>
+          <div class="hero-meta-item">
+            <svg class="hero-meta-icon" viewBox="0 0 16 16" fill="none"><path d="M8 2a6 6 0 100 12A6 6 0 008 2zm0 2l1 3.5L12 9l-3 .5L8 13l-1-3.5L4 9l3-.5L8 4z" fill="currentColor"/></svg>
+            Government Subsidy Aligned
+          </div>
+          <div class="hero-meta-item">
+            <svg class="hero-meta-icon" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.5"/><path d="M5.5 8l2 2 3-3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+            Verified Dealer Network
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       TICKER
+  ═══════════════════════════════════════════════════════════════════ -->
+  <div class="ticker-wrap">
+    <div class="ticker-inner">
+      <!-- duplicated for infinite loop -->
+      <div class="ticker-item"><span class="ticker-dot"></span>India's Rooftop Solar Mission</div>
+      <div class="ticker-item"><span class="ticker-dot"></span>AI-Powered Lead Intelligence</div>
+      <div class="ticker-item"><span class="ticker-dot"></span>Premium Dealer Network</div>
+      <div class="ticker-item"><span class="ticker-dot"></span>Government-Subsidy Aligned</div>
+      <div class="ticker-item"><span class="ticker-dot"></span>Zero Spam. Zero Confusion.</div>
+      <div class="ticker-item"><span class="ticker-dot"></span>Precision Homeowner Matching</div>
+      <div class="ticker-item"><span class="ticker-dot"></span>India's Rooftop Solar Mission</div>
+      <div class="ticker-item"><span class="ticker-dot"></span>AI-Powered Lead Intelligence</div>
+      <div class="ticker-item"><span class="ticker-dot"></span>Premium Dealer Network</div>
+      <div class="ticker-item"><span class="ticker-dot"></span>Government-Subsidy Aligned</div>
+      <div class="ticker-item"><span class="ticker-dot"></span>Zero Spam. Zero Confusion.</div>
+      <div class="ticker-item"><span class="ticker-dot"></span>Precision Homeowner Matching</div>
+    </div>
+  </div>
+
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       AUTHORITY STRIP
+  ═══════════════════════════════════════════════════════════════════ -->
+  <section id="authority">
+    <div class="container--wide">
+      <div class="authority-inner">
+
+        <div class="authority-item reveal">
+          <svg class="authority-icon" viewBox="0 0 22 22" fill="none">
+            <path d="M11 2L13.5 8.5H20L14.5 12.5L16.5 19L11 15L5.5 19L7.5 12.5L2 8.5H8.5L11 2Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+          </svg>
+          <span class="authority-text">Built for India's Rooftop Solar Mission</span>
+        </div>
+
+        <div class="authority-item reveal reveal-delay-1">
+          <svg class="authority-icon" viewBox="0 0 22 22" fill="none">
+            <rect x="3" y="3" width="16" height="16" rx="3" stroke="currentColor" stroke-width="1.5"/>
+            <path d="M7 11l3 3 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <span class="authority-text">AI-Powered Lead Intelligence</span>
+        </div>
+
+        <div class="authority-item reveal reveal-delay-2">
+          <svg class="authority-icon" viewBox="0 0 22 22" fill="none">
+            <circle cx="11" cy="11" r="8" stroke="currentColor" stroke-width="1.5"/>
+            <path d="M8 11h6M11 8v6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+          <span class="authority-text">Premium Dealer Network</span>
+        </div>
+
+        <div class="authority-item reveal reveal-delay-3">
+          <svg class="authority-icon" viewBox="0 0 22 22" fill="none">
+            <path d="M11 3C6.58 3 3 6.58 3 11s3.58 8 8 8 8-3.58 8-8-3.58-8-8-8z" stroke="currentColor" stroke-width="1.5"/>
+            <path d="M7 11l3 3 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <span class="authority-text">Government-Subsidy Aligned</span>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       PROBLEM FRAMING
+  ═══════════════════════════════════════════════════════════════════ -->
+  <section id="problem">
+    <div class="container">
+      <div class="problem-header">
+        <div class="section-label reveal">The Challenge</div>
+        <h2 class="section-heading reveal reveal-delay-1">
+          The Solar Market Is Growing.<br /><em>The Process Is Broken.</em>
+        </h2>
+        <p class="section-desc reveal reveal-delay-2" style="max-width:520px;margin:0 auto;">
+          India has one of the world's most ambitious rooftop solar programs —
+          yet most homeowners and dealers suffer through a fragmented, opaque experience.
+        </p>
+      </div>
+
+      <div class="problem-grid">
+
+        <div class="problem-card reveal">
+          <div class="problem-number">01</div>
+          <div class="problem-icon">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+              <circle cx="10" cy="10" r="8" stroke="currentColor" stroke-width="1.5"/>
+              <path d="M10 6v5M10 14v.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div class="problem-title">Confusing Subsidy Process</div>
+          <p class="problem-desc">
+            PM-Surya Ghar has clear benefits — but eligibility rules, application steps,
+            and documentation requirements leave most homeowners paralyzed.
+          </p>
+        </div>
+
+        <div class="problem-card reveal reveal-delay-1">
+          <div class="problem-number">02</div>
+          <div class="problem-icon">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+              <path d="M4 4h12v10H4z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+              <path d="M2 14h16M7 4V2.5M13 4V2.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div class="problem-title">Low-Quality Dealer Leads</div>
+          <p class="problem-desc">
+            Dealers are flooded with unqualified inquiries — wrong location, wrong budget,
+            wrong intent. The signal-to-noise ratio is catastrophically low.
+          </p>
+        </div>
+
+        <div class="problem-card reveal reveal-delay-2">
+          <div class="problem-number">03</div>
+          <div class="problem-icon">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+              <circle cx="7" cy="8" r="3" stroke="currentColor" stroke-width="1.5"/>
+              <circle cx="14" cy="8" r="3" stroke="currentColor" stroke-width="1.5"/>
+              <path d="M1 17c0-3.31 2.69-6 6-6M10 14c0-2.21 1.79-4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div class="problem-title">No Intelligent Matching</div>
+          <p class="problem-desc">
+            There is no structured layer between homeowner intent and dealer capability.
+            Solar Vaani fills this gap with precision intelligence.
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       ENGINE
+  ═══════════════════════════════════════════════════════════════════ -->
+  <section id="engine">
+    <div class="container">
+      <div class="engine-header">
+        <div class="section-label reveal">The Platform</div>
+        <h2 class="section-heading reveal reveal-delay-1">Powered by <em>Intelligence.</em></h2>
+        <p class="section-desc reveal reveal-delay-2" style="margin:0 auto;text-align:center;">
+          Every step engineered to convert homeowner intent into qualified dealer opportunity.
+        </p>
+      </div>
+
+      <div style="position:relative; max-width:960px; margin:0 auto;">
+        <!-- Connecting line behind nodes -->
+        <div class="engine-progress-line"></div>
+
+        <div class="engine-flow">
+          <div class="engine-step reveal">
+            <div class="engine-step-node">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 4a3 3 0 110 6 3 3 0 010-6zm0 14c-2.67 0-5.03-1.22-6.6-3.13.04-2.18 4.4-3.37 6.6-3.37 2.2 0 6.56 1.19 6.6 3.37C17.03 18.78 14.67 20 12 20z" fill="currentColor"/>
+              </svg>
+            </div>
+            <div class="engine-connector"></div>
+            <div class="engine-step-num">Step 01</div>
+            <div class="engine-step-title">Understand</div>
+            <p class="engine-step-desc">AI profiles homeowner intent, location, consumption, and rooftop viability.</p>
+          </div>
+
+          <div class="engine-step reveal reveal-delay-1">
+            <div class="engine-step-node">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <path d="M9 11l3 3 8-8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M20 12c0 4.42-3.58 8-8 8s-8-3.58-8-8 3.58-8 8-8c.93 0 1.83.16 2.66.45" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <div class="engine-connector"></div>
+            <div class="engine-step-num">Step 02</div>
+            <div class="engine-step-title">Qualify</div>
+            <p class="engine-step-desc">Subsidy eligibility scored against PM-Surya Ghar criteria in real time.</p>
+          </div>
+
+          <div class="engine-step reveal reveal-delay-2">
+            <div class="engine-step-node">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <path d="M3 6h18M3 10h14M3 14h10M3 18h6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <div class="engine-connector"></div>
+            <div class="engine-step-num">Step 03</div>
+            <div class="engine-step-title">Filter</div>
+            <p class="engine-step-desc">Only feasible, high-intent leads pass through the intelligence layer.</p>
+          </div>
+
+          <div class="engine-step reveal reveal-delay-3">
+            <div class="engine-step-node">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <circle cx="8" cy="12" r="3" stroke="currentColor" stroke-width="2"/>
+                <circle cx="17" cy="7" r="3" stroke="currentColor" stroke-width="2"/>
+                <circle cx="17" cy="17" r="3" stroke="currentColor" stroke-width="2"/>
+                <path d="M11 12h3M11 10l3-3M11 14l3 3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <div class="engine-connector"></div>
+            <div class="engine-step-num">Step 04</div>
+            <div class="engine-step-title">Match</div>
+            <p class="engine-step-desc">Precision dealer matching by location, capacity, and conversion profile.</p>
+          </div>
+
+          <div class="engine-step reveal reveal-delay-4">
+            <div class="engine-step-node">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <path d="M12 2l3 7h7l-5.5 4 2 7L12 16l-6.5 4 2-7L2 9h7z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <div class="engine-step-num">Step 05</div>
+            <div class="engine-step-title">Convert</div>
+            <p class="engine-step-desc">Qualified leads close at measurably higher rates. Lower cost. Better margins.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       FOR HOMEOWNERS
+  ═══════════════════════════════════════════════════════════════════ -->
+  <section id="homeowners">
+    <div class="container">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:center;">
+
+        <div>
+          <div class="section-label reveal">For Homeowners</div>
+          <h2 class="section-heading reveal reveal-delay-1" style="color:var(--light-text)">
+            Solar, simplified.<br />Subsidy, <em style="color:#7248D4">secured.</em>
+          </h2>
+          <p class="section-desc reveal reveal-delay-2">
+            We guide you from curiosity to installation — without the confusion,
+            the spam, or the dead ends.
+          </p>
+          <div style="margin-top:32px;" class="reveal reveal-delay-3">
+            <a href="#capture" class="btn btn-primary btn-lg" style="background:#7248D4;color:#fff;">
+              Check My Eligibility
+              <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+          </div>
+        </div>
+
+        <div class="homeowner-grid reveal reveal-delay-1">
+
+          <div class="feature-card-light">
+            <div class="feature-icon-light">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                <path d="M10 2l2.5 7.5H20l-6 4.5 2.5 7.5L10 17l-6.5 4.5 2.5-7.5L0 9.5h7.5z" fill="currentColor"/>
+              </svg>
+            </div>
+            <div class="feature-title-light">AI-Guided Subsidy Clarity</div>
+            <p class="feature-desc-light">Understand exactly what you qualify for under PM-Surya Ghar — in plain language, not government jargon.</p>
+          </div>
+
+          <div class="feature-card-light">
+            <div class="feature-icon-light">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                <rect x="2" y="2" width="16" height="16" rx="3" stroke="currentColor" stroke-width="1.5"/>
+                <path d="M6 10l3 3 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <div class="feature-title-light">Feasibility-First Filtering</div>
+            <p class="feature-desc-light">We assess your rooftop, electricity consumption, and location before matching you with any dealer.</p>
+          </div>
+
+          <div class="feature-card-light">
+            <div class="feature-icon-light">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                <circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.5"/>
+                <path d="M7 10l2 2 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <div class="feature-title-light">Verified Premium Dealers</div>
+            <p class="feature-desc-light">Every dealer in our network is vetted — license-checked, capacity-verified, and performance-tracked.</p>
+          </div>
+
+          <div class="feature-card-light">
+            <div class="feature-icon-light">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                <path d="M3 3h14v2H3zM3 9h10v2H3zM3 15h7v2H3z" fill="currentColor"/>
+              </svg>
+            </div>
+            <div class="feature-title-light">No Spam. No Chaos.</div>
+            <p class="feature-desc-light">You receive exactly one matched dealer recommendation — curated, not cold-called by a dozen strangers.</p>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       FOR DEALERS
+  ═══════════════════════════════════════════════════════════════════ -->
+  <section id="dealers">
+    <div class="container">
+      <div class="dealers-inner">
+
+        <div>
+          <div class="section-label reveal">For Dealers</div>
+          <h2 class="section-heading reveal reveal-delay-1">High-Intent Leads.<br /><em>Engineered.</em></h2>
+          <p class="section-desc reveal reveal-delay-2">
+            Stop wasting acquisition budgets on unqualified inquiries.
+            Solar Vaani delivers precision-matched homeowners ready to move.
+          </p>
+
+          <div class="dealer-features">
+            <div class="dealer-feature reveal reveal-delay-1">
+              <div class="dealer-feature-icon">
+                <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="6" stroke="currentColor" stroke-width="1.5"/><path d="M9 6v4l2.5 2.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+              </div>
+              <div class="dealer-feature-content">
+                <div class="dealer-feature-title">Location-Precision Matching</div>
+                <p class="dealer-feature-desc">Every lead is matched to your exact serviceable area. No cross-state noise.</p>
+              </div>
+            </div>
+
+            <div class="dealer-feature reveal reveal-delay-2">
+              <div class="dealer-feature-icon">
+                <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M3 14l4-4 3 3 5-6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </div>
+              <div class="dealer-feature-content">
+                <div class="dealer-feature-title">Margin-Aligned Targeting</div>
+                <p class="dealer-feature-desc">AI filters by consumption profile, ensuring leads fit your ideal system size and margin structure.</p>
+              </div>
+            </div>
+
+            <div class="dealer-feature reveal reveal-delay-3">
+              <div class="dealer-feature-icon">
+                <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 2l2 5.5H17l-5 3.5 2 5.5L9 13.5 4 16.5l2-5.5L1 7.5h6z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>
+              </div>
+              <div class="dealer-feature-content">
+                <div class="dealer-feature-title">Higher Conversion Probability</div>
+                <p class="dealer-feature-desc">Leads arrive pre-qualified, pre-educated, and subsidy-aware. They're ready to talk numbers.</p>
+              </div>
+            </div>
+
+            <div class="dealer-feature reveal reveal-delay-4">
+              <div class="dealer-feature-icon">
+                <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><rect x="2" y="10" width="3" height="6" rx="1" fill="currentColor"/><rect x="7.5" y="7" width="3" height="9" rx="1" fill="currentColor"/><rect x="13" y="3" width="3" height="13" rx="1" fill="currentColor"/></svg>
+              </div>
+              <div class="dealer-feature-content">
+                <div class="dealer-feature-title">Lower Acquisition Cost</div>
+                <p class="dealer-feature-desc">Quality over volume. Fewer leads, better outcomes. Your sales team closes — not chases.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="dealer-visual reveal reveal-delay-2">
+          <div style="font-size:0.72rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-bottom:20px;">Lead Quality Dashboard</div>
+          <div class="dealer-metric">
+            <div class="dealer-metric-item">
+              <div>
+                <div class="dealer-metric-label">Lead Qualification Score</div>
+                <div class="dealer-metric-bar-wrap"><div class="dealer-metric-bar bar-animate" data-width="87" style="width:0%"></div></div>
+              </div>
+              <div class="dealer-metric-value">87%</div>
+            </div>
+
+            <div class="dealer-metric-item">
+              <div>
+                <div class="dealer-metric-label">Location Match Accuracy</div>
+                <div class="dealer-metric-bar-wrap"><div class="dealer-metric-bar bar-animate" data-width="94" style="width:0%;background:linear-gradient(90deg,#3ECFA0,rgba(62,207,160,0.4))"></div></div>
+              </div>
+              <div class="dealer-metric-value">94%</div>
+            </div>
+
+            <div class="dealer-metric-item">
+              <div>
+                <div class="dealer-metric-label">Subsidy Eligibility Rate</div>
+                <div class="dealer-metric-bar-wrap"><div class="dealer-metric-bar bar-animate" data-width="79" style="width:0%;background:linear-gradient(90deg,#7248D4,rgba(114,72,212,0.4))"></div></div>
+              </div>
+              <div class="dealer-metric-value">79%</div>
+            </div>
+
+            <div class="dealer-metric-item">
+              <div>
+                <div class="dealer-metric-label">Conversion Lift vs. Market</div>
+                <div class="dealer-metric-bar-wrap"><div class="dealer-metric-bar bar-animate" data-width="65" style="width:0%;background:linear-gradient(90deg,#F5A82A,rgba(245,168,42,0.4))"></div></div>
+              </div>
+              <div class="dealer-metric-value">+65%</div>
+            </div>
+          </div>
+
+          <div style="margin-top:28px;padding-top:24px;border-top:1px solid var(--border);font-size:0.75rem;color:var(--muted);line-height:1.6;">
+            Illustrative metrics based on AI-matched lead performance modeling.
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       STATS / CREDIBILITY
+  ═══════════════════════════════════════════════════════════════════ -->
+  <section id="stats">
+    <div class="container">
+      <div style="text-align:center;margin-bottom:64px;">
+        <div class="section-label reveal" style="justify-content:center;">The Opportunity</div>
+        <h2 class="section-heading reveal reveal-delay-1" style="text-align:center;max-width:640px;margin:0 auto 16px;">
+          India's Solar Decade Is<br /><em>Already Here.</em>
+        </h2>
+      </div>
+
+      <div class="stats-grid reveal reveal-delay-1">
+        <div class="stat-block">
+          <div class="stat-value"><span class="counter" data-target="30">0</span><span>M+</span></div>
+          <div class="stat-label">Target homes under<br/>PM-Surya Ghar by 2027</div>
+        </div>
+        <div class="stat-block">
+          <div class="stat-value"><span class="counter" data-target="78">0</span><span>K</span></div>
+          <div class="stat-label">Crore in subsidy allocation<br/>by Government of India</div>
+        </div>
+        <div class="stat-block">
+          <div class="stat-value"><span class="counter" data-target="3">0</span><span>×</span></div>
+          <div class="stat-label">Projected conversion uplift<br/>with AI-matched leads</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       LEAD CAPTURE
+  ═══════════════════════════════════════════════════════════════════ -->
+  <section id="capture">
+    <div class="container">
+      <div class="capture-inner">
+
+        <div class="capture-copy">
+          <div class="section-label reveal">Get Started</div>
+          <h2 class="section-heading reveal reveal-delay-1">
+            Your solar journey<br />begins in <em>minutes.</em>
+          </h2>
+          <p class="section-desc reveal reveal-delay-2">
+            Whether you're a homeowner curious about savings or a dealer
+            looking to grow your qualified pipeline — start here.
+          </p>
+
+          <div class="capture-trust reveal reveal-delay-3">
+            <div class="trust-item">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.5"/><path d="M5 8l2 2 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+              No spam. Your data is never sold.
+            </div>
+            <div class="trust-item">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.5"/><path d="M5 8l2 2 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+              One match. Curated. Not a cold-call list.
+            </div>
+            <div class="trust-item">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.5"/><path d="M5 8l2 2 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+              Government-subsidy aligned, always.
+            </div>
+            <div class="trust-item">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.5"/><path d="M5 8l2 2 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+              Free to start. No commitment.
+            </div>
+          </div>
+        </div>
+
+        <div class="form-glass reveal reveal-delay-2">
+          <div class="form-tabs">
+            <button class="form-tab active" onclick="switchTab('homeowner',this)">Homeowner</button>
+            <button class="form-tab" onclick="switchTab('dealer',this)">Dealer / Installer</button>
+          </div>
+
+          <!-- Homeowner Form -->
+          <div class="form-panel active" id="panel-homeowner">
+            <form onsubmit="handleSubmit(event,'homeowner')">
+              <div class="form-row">
+                <div class="form-field">
+                  <label>Full Name</label>
+                  <input type="text" placeholder="Rahul Sharma" required />
+                </div>
+                <div class="form-field">
+                  <label>Phone Number</label>
+                  <input type="tel" placeholder="+91 98765 43210" required />
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-field">
+                  <label>City</label>
+                  <input type="text" placeholder="Pune" required />
+                </div>
+                <div class="form-field">
+                  <label>Monthly Electricity Bill</label>
+                  <select required>
+                    <option value="" disabled selected>Select range</option>
+                    <option>Below ₹1,000</option>
+                    <option>₹1,000 – ₹2,500</option>
+                    <option>₹2,500 – ₹5,000</option>
+                    <option>₹5,000 – ₹10,000</option>
+                    <option>Above ₹10,000</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-field">
+                <label>Rooftop Type</label>
+                <select required>
+                  <option value="" disabled selected>Select rooftop type</option>
+                  <option>RCC / Concrete Roof</option>
+                  <option>Metal Sheet Roof</option>
+                  <option>Tiled / Slanted Roof</option>
+                  <option>Terrace / Flat Roof</option>
+                  <option>Not Sure</option>
+                </select>
+              </div>
+              <button type="submit" class="form-submit">Check My Solar Eligibility →</button>
+            </form>
+          </div>
+
+          <!-- Dealer Form -->
+          <div class="form-panel" id="panel-dealer">
+            <form onsubmit="handleSubmit(event,'dealer')">
+              <div class="form-row">
+                <div class="form-field">
+                  <label>Company Name</label>
+                  <input type="text" placeholder="SunBright Solar Pvt. Ltd." required />
+                </div>
+                <div class="form-field">
+                  <label>Operating State</label>
+                  <select required>
+                    <option value="" disabled selected>Choose state</option>
+                    <option>Maharashtra</option>
+                    <option>Gujarat</option>
+                    <option>Rajasthan</option>
+                    <option>Madhya Pradesh</option>
+                    <option>Uttar Pradesh</option>
+                    <option>Karnataka</option>
+                    <option>Tamil Nadu</option>
+                    <option>Andhra Pradesh</option>
+                    <option>Telangana</option>
+                    <option>Delhi NCR</option>
+                    <option>Other</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-field">
+                <label>Monthly Install Capacity (kW)</label>
+                <select required>
+                  <option value="" disabled selected>Select range</option>
+                  <option>Under 50 kW/month</option>
+                  <option>50 – 200 kW/month</option>
+                  <option>200 – 500 kW/month</option>
+                  <option>Above 500 kW/month</option>
+                </select>
+              </div>
+              <div class="form-row">
+                <div class="form-field">
+                  <label>Contact Person</label>
+                  <input type="text" placeholder="Priya Mehta" required />
+                </div>
+                <div class="form-field">
+                  <label>Phone / WhatsApp</label>
+                  <input type="tel" placeholder="+91 98765 43210" required />
+                </div>
+              </div>
+              <button type="submit" class="form-submit">Join the Dealer Network →</button>
+            </form>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       FINAL CTA
+  ═══════════════════════════════════════════════════════════════════ -->
+  <section id="final-cta">
+    <div class="container">
+      <div style="position:relative;z-index:2;">
+        <div class="section-label reveal" style="justify-content:center;margin-bottom:24px;">Solar Vaani</div>
+        <h2 class="final-headline reveal reveal-delay-1">
+          The Future of<br />Rooftop Solar<br />Is <em>Intelligent.</em>
+        </h2>
+        <p class="final-sub reveal reveal-delay-2">
+          Join India's most precise solar intelligence platform.
+          Built for scale. Designed for trust.
+        </p>
+        <div class="reveal reveal-delay-3">
+          <a href="#capture" class="btn btn-primary btn-xl btn-glow">
+            <svg width="18" height="18" viewBox="0 0 20 20" fill="none"><path d="M10 2l2.09 6.26L18 10l-5.91 1.74L10 18l-2.09-6.26L2 10l5.91-1.74L10 2z" fill="currentColor"/></svg>
+            Start Your Solar Journey
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       FOOTER
+  ═══════════════════════════════════════════════════════════════════ -->
+  <footer>
+    <div class="container">
+      <div class="footer-inner">
+        <div class="footer-top">
+          <a href="#" class="nav-logo">
+            <div class="nav-logo-mark">
+              <svg viewBox="0 0 18 18" fill="none">
+                <circle cx="9" cy="9" r="3.5" fill="#fff"/>
+                <path d="M9 1v2M9 15v2M1 9h2M15 9h2M3.22 3.22l1.41 1.41M13.37 13.37l1.41 1.41M3.22 14.78l1.41-1.41M13.37 4.63l1.41-1.41" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <span class="nav-logo-text">Solar <span>Vaani</span></span>
+          </a>
+
+          <ul class="footer-links">
+            <li><a href="#">About</a></li>
+            <li><a href="#">Contact</a></li>
+            <li><a href="#">For Dealers</a></li>
+            <li><a href="#">PM-Surya Ghar</a></li>
+            <li><a href="#">Privacy Policy</a></li>
+            <li><a href="#">Terms of Use</a></li>
+            <li><a href="#">Disclaimer</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-divider"></div>
+
+        <div class="footer-bottom">
+          <div class="footer-copy">
+            © 2026 Solar Vaani Technologies Pvt. Ltd. All rights reserved.
+          </div>
+          <div class="footer-disclaimer">
+            Solar Vaani is an independent AI-powered platform and is not an official Government of India portal. 
+            PM-Surya Ghar: Muft Bijli Yojana is a Government of India initiative. 
+            Subsidy availability is subject to official eligibility criteria.
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       JAVASCRIPT
+  ═══════════════════════════════════════════════════════════════════ -->
+  <script>
+    /* ── Navbar scroll ──────────────────────────────────────────── */
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 40) navbar.classList.add('scrolled');
+      else navbar.classList.remove('scrolled');
+    }, { passive: true });
+
+
+    /* ── Scroll reveal ──────────────────────────────────────────── */
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+    document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+
+    /* ── Counter animation ──────────────────────────────────────── */
+    const counterObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        const el = entry.target;
+        const target = parseInt(el.dataset.target);
+        const duration = 1800;
+        const start = performance.now();
+
+        const update = (now) => {
+          const elapsed = now - start;
+          const progress = Math.min(elapsed / duration, 1);
+          const ease = 1 - Math.pow(1 - progress, 3);
+          el.textContent = Math.floor(ease * target);
+          if (progress < 1) requestAnimationFrame(update);
+          else el.textContent = target;
+        };
+
+        requestAnimationFrame(update);
+        counterObserver.unobserve(el);
+      });
+    }, { threshold: 0.5 });
+
+    document.querySelectorAll('.counter').forEach(el => counterObserver.observe(el));
+
+
+    /* ── Bar animations ─────────────────────────────────────────── */
+    const barObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        const bar = entry.target;
+        const width = bar.dataset.width;
+        setTimeout(() => { bar.style.width = width + '%'; }, 300);
+        barObserver.unobserve(bar);
+      });
+    }, { threshold: 0.3 });
+
+    document.querySelectorAll('.bar-animate').forEach(el => barObserver.observe(el));
+
+
+    /* ── Particles ──────────────────────────────────────────────── */
+    const particleContainer = document.getElementById('particles');
+    function spawnParticle() {
+      const p = document.createElement('div');
+      p.className = 'particle';
+      const x = Math.random() * 60 + 20; // 20–80% from left (hero area)
+      const size = Math.random() * 2 + 1;
+      const dur = Math.random() * 6 + 6;
+      const delay = Math.random() * 4;
+      p.style.cssText = `
+        left: ${x}%; bottom: ${Math.random() * 30}%;
+        width: ${size}px; height: ${size}px;
+        animation-duration: ${dur}s;
+        animation-delay: ${delay}s;
+      `;
+      particleContainer.appendChild(p);
+      setTimeout(() => p.remove(), (dur + delay) * 1000);
+    }
+    // Spawn particles periodically
+    for (let i = 0; i < 12; i++) spawnParticle();
+    setInterval(spawnParticle, 1200);
+
+
+    /* ── Form tabs ──────────────────────────────────────────────── */
+    function switchTab(type, btn) {
+      document.querySelectorAll('.form-tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.form-panel').forEach(p => p.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('panel-' + type).classList.add('active');
+    }
+
+
+    /* ── Form submit ────────────────────────────────────────────── */
+    function handleSubmit(e, type) {
+      e.preventDefault();
+      const btn = e.target.querySelector('.form-submit');
+      const original = btn.textContent;
+      btn.textContent = '✓ Submitted — We\'ll be in touch shortly.';
+      btn.style.background = 'var(--green)';
+      btn.disabled = true;
+      setTimeout(() => {
+        btn.textContent = original;
+        btn.style.background = '';
+        btn.disabled = false;
+        e.target.reset();
+      }, 4000);
+    }
+
+
+    /* ── Smooth anchor scroll ────────────────────────────────────── */
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        const id = this.getAttribute('href');
+        if (id === '#') return;
+        const target = document.querySelector(id);
+        if (target) {
+          e.preventDefault();
+          const offset = 80;
+          const top = target.getBoundingClientRect().top + window.scrollY - offset;
+          window.scrollTo({ top, behavior: 'smooth' });
+        }
+      });
+    });
+
+
+    /* ── Trigger initial reveals (above fold) ───────────────────── */
+    requestAnimationFrame(() => {
+      document.querySelectorAll('.reveal').forEach(el => {
+        const rect = el.getBoundingClientRect();
+        if (rect.top < window.innerHeight) el.classList.add('visible');
+      });
+    });
+  </script>
+
+</body>
+</html>
